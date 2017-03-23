@@ -1,0 +1,9 @@
+[package]
+name = "benches"
+version = "0.1.0"
+authors = ["Neil Shen <overvenus@gmail.com>"]
+
+[dependencies]
+ordermap = "0.2.8"
+fnv = "1.0.5"
+rand = "0.3"
