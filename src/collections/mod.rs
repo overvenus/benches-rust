@@ -13,6 +13,33 @@ fn new_rand_vec<T: Rand>(size: usize) -> Vec<T> {
 }
 
 macro_rules! bench_map {
+    (q $name:ident => $map:expr => $count:expr => $vsize:expr) => {
+        #[bench]
+        fn $name (b: &mut test::Bencher) {
+            let mut map = $map;
+            let count = $count;
+            let vsize = $vsize;
+
+            let ks = new_rand_vec::<u64>(count);
+            let mut vs: Vec<Vec<u8>> = Vec::with_capacity(count);
+            for _ in 0..count {
+                vs.push(new_rand_vec(vsize));
+            }
+
+            for i in 0..count {
+                map.insert(ks[i], vs[i].clone());
+            }
+
+            let mut c = 0;
+            b.iter(|| {
+                // qurey
+                let _ = map.get(&ks[c]);
+                c += 1;
+                c %= count;
+            });
+        }
+    };
+
     (qdi $name:ident => $map:expr => $count:expr => $vsize:expr) => {
         #[bench]
         fn $name (b: &mut test::Bencher) {
@@ -56,3 +83,6 @@ bench_map!{qdi bench_fnv_map_little => FnvHashMap::default() => 10 => 100}
 bench_map!{qdi bench_fnv_map_large => FnvHashMap::default() => 1000 => 100}
 bench_map!{qdi bench_ordermap_little => OrderMap::new() => 10 => 100}
 bench_map!{qdi bench_ordermap_large => OrderMap::new() => 1000 => 100}
+
+bench_map!{q bench_fnv_map_little_query => FnvHashMap::default() => 64 => 100}
+bench_map!{q bench_ordermap_little_query => OrderMap::new() => 64 => 100}
