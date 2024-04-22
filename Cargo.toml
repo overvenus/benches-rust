@@ -2,8 +2,19 @@
 name = "benches"
 version = "0.1.0"
 authors = ["Neil Shen <overvenus@gmail.com>"]
+edition = "2021"
 
 [dependencies]
 ordermap = "0.2.8"
 fnv = "1.0.5"
 rand = "0.3"
+
+[dev-dependencies]
+criterion = "0.3"
+criterion-cpu-time = "0.1"
+
+[[bench]]
+name = "memory"
+harness = false
+path = "benches/memory.rs"
+

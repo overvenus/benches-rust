@@ -7,3 +7,5 @@ extern crate rand;
 
 #[cfg(test)]
 mod collections;
+
+pub mod memory;
