@@ -58,6 +58,10 @@ fn bench_memory_quota_alloc_free(c: &mut Criterion) {
 }
 
 fn bench_memory_quota_multi_threads(c: &mut Criterion) {
+    memory_quota_multi_threads(c, 2);
+    memory_quota_multi_threads(c, 4);
+    memory_quota_multi_threads(c, 8);
+    memory_quota_multi_threads(c, 16);
     memory_quota_multi_threads(c, 32);
     memory_quota_multi_threads(c, 64);
 }
